@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem 1: Pengelolaan Cuti Pegawai (US-01)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400 flex items-center justify-center text-blue-300 font-bold text-lg">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Sistem 1: Pengelolaan Cuti Pegawai (US-01)</h1>
+          <p class="text-xs text-blue-200">Analisis & Perancangan Sistem - TIF D</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3 text-xs bg-white/10 px-4 py-2 rounded-lg border border-white/10">
+        <div>
+          <span class="block text-slate-300">Mahasiswa:</span>
+          <span class="font-semibold text-white">Achmad Hujairi</span>
+        </div>
+        <div class="h-6 w-px bg-white/20"></div>
+        <div>
+          <span class="block text-slate-300">NIM:</span>
+          <span class="font-mono font-semibold text-yellow-300">255150200111042</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full space-y-6">
+
+    <!-- Card US-01 Info -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+      <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">US-01</span>
+            <h2 class="text-xl font-bold text-slate-800">Panel Pengelolaan Cuti Pegawai</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            Sebagai HRD Manajer, memilih jadwal cuti untuk melihat pegawai yang mengajukan permohonan cuti, durasi, riwayat, dan sisa cuti tahun berjalan.
+          </p>
+        </div>
+        <div class="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+          <i class="fa-solid fa-user-tie text-blue-600 mr-1"></i> Aktor: <strong>HRD Manajer</strong>
+        </div>
+      </div>
+
+      <!-- Filter Periode (Task a) -->
+      <div class="mt-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
+        <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-filter text-blue-600"></i> Form Pilih Periode Cuti (Task a & b)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Tahun</label>
+            <select id="cuti-tahun" class="w-full text-sm border border-slate-300 rounded-md p-2 bg-white">
+              <option value="2026" selected>2026</option>
+              <option value="2025">2025</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Bulan</label>
+            <select id="cuti-bulan" class="w-full text-sm border border-slate-300 rounded-md p-2 bg-white">
+              <option value="">Semua Bulan</option>
+              <option value="11" selected>November (11)</option>
+              <option value="12">Desember (12)</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2 flex items-end">
+            <button onclick="loadPengajuanCuti()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md text-sm transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-magnifying-glass"></i> Tampilkan Permohonan Cuti Sesuai Periode
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabel Pengajuan Cuti (Task b) -->
+      <div class="mt-6">
+        <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center justify-between">
+          <span><i class="fa-solid fa-list-check text-blue-600 mr-1"></i> Daftar Pengajuan Cuti Pegawai</span>
+          <span id="cuti-count-badge" class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">0 data</span>
+        </h3>
+        <div class="overflow-x-auto rounded-lg border border-slate-200">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-100 text-slate-700 uppercase text-xs border-b border-slate-200">
+              <tr>
+                <th class="py-3 px-4">ID Pengajuan</th>
+                <th class="py-3 px-4">Nama Pegawai</th>
+                <th class="py-3 px-4">Periode Cuti Diajukan</th>
+                <th class="py-3 px-4 text-center">Durasi (Hari)</th>
+                <th class="py-3 px-4">Alasan</th>
+                <th class="py-3 px-4 text-center">Aksi (Task c)</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-pengajuan-cuti" class="divide-y divide-slate-200 bg-white">
+              <tr>
+                <td colspan="6" class="text-center py-6 text-slate-400">Klik tombol filter untuk memuat data pengajuan cuti.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detail Riwayat & Sisa Cuti Pegawai (Task c) -->
+      <div id="section-detail-pegawai" class="mt-8 hidden bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-5">
+        <div class="flex justify-between items-start pb-3 border-b border-blue-200">
+          <div>
+            <h3 class="font-bold text-blue-900 text-base flex items-center gap-2">
+              <i class="fa-solid fa-address-card text-blue-600"></i> Detail Riwayat & Sisa Cuti Pegawai (Task c)
+            </h3>
+            <p class="text-xs text-blue-700" id="detail-pegawai-subtitle"></p>
+          </div>
+          <button onclick="document.getElementById('section-detail-pegawai').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <!-- Box Sisa Cuti -->
+          <div class="bg-white p-4 rounded-lg border border-blue-100 shadow-sm flex flex-col justify-center items-center text-center">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sisa Cuti Tahun Berjalan (2026)</span>
+            <div class="text-4xl font-extrabold text-blue-600 my-2" id="detail-sisa-cuti">-</div>
+            <span class="text-xs text-slate-400">Hari tersisa pada tahun berjalan</span>
+          </div>
+
+          <!-- Box Riwayat Cuti -->
+          <div class="md:col-span-2 bg-white p-4 rounded-lg border border-blue-100 shadow-sm">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-2">Riwayat Cuti Terambil</span>
+            <div class="overflow-y-auto max-h-48">
+              <table class="w-full text-xs text-left">
+                <thead class="bg-slate-50 text-slate-600">
+                  <tr>
+                    <th class="py-2 px-2">ID Riwayat</th>
+                    <th class="py-2 px-2">Periode Cuti</th>
+                    <th class="py-2 px-2 text-center">Durasi</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-riwayat-cuti" class="divide-y divide-slate-100">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-4 text-xs text-center border-t border-slate-800 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <p>&copy; 2026 Achmad Hujairi (255150200111042) - Analisis & Perancangan Sistem</p>
+      <p class="text-slate-500">Sistem 1: Pengelolaan Cuti Pegawai (US-01)</p>
+    </div>
+  </footer>
+
+  <script>
+    async function loadPengajuanCuti() {
+      const tahun = document.getElementById("cuti-tahun").value;
+      const bulan = document.getElementById("cuti-bulan").value;
+      const tbody = document.getElementById("tbody-pengajuan-cuti");
+      const badge = document.getElementById("cuti-count-badge");
+
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</td></tr>`;
+
+      try {
+        const params = new URLSearchParams();
+        if (tahun) params.append("tahun", tahun);
+        if (bulan) params.append("bulan", bulan);
+
+        const res = await fetch(`/api/cuti/pengajuan?${params.toString()}`);
+        const json = await res.json();
+
+        if (json.success && json.data.length > 0) {
+          badge.textContent = `${json.total} data`;
+          tbody.innerHTML = json.data.map(item => `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-3 px-4 font-mono font-medium text-slate-600">${item.idPengajuan}</td>
+              <td class="py-3 px-4 font-semibold text-slate-800">${item.namaPegawai}</td>
+              <td class="py-3 px-4 text-slate-600">${item.periodeCuti}</td>
+              <td class="py-3 px-4 text-center font-bold text-blue-600">${item.durasiCuti}</td>
+              <td class="py-3 px-4 text-slate-500">${item.alasan || '-'}</td>
+              <td class="py-3 px-4 text-center">
+                <button onclick="viewDetailPegawai('${item.idPegawai}', '${item.namaPegawai}')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-3 py-1 rounded text-xs font-medium transition flex items-center gap-1 mx-auto">
+                  <i class="fa-solid fa-user-check"></i> Detail & Sisa Cuti
+                </button>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          badge.textContent = "0 data";
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400">Tidak ada pengajuan cuti pada periode ini.</td></tr>`;
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-red-500">Gagal memuat data: ${err.message}</td></tr>`;
+      }
+    }
+
+    async function viewDetailPegawai(idPegawai, namaPegawai) {
+      const section = document.getElementById("section-detail-pegawai");
+      const subtitle = document.getElementById("detail-pegawai-subtitle");
+      const sisaEl = document.getElementById("detail-sisa-cuti");
+      const tbodyRiwayat = document.getElementById("tbody-riwayat-cuti");
+
+      section.classList.remove("hidden");
+      subtitle.textContent = `Pegawai: ${namaPegawai} (${idPegawai})`;
+      sisaEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-2xl"></i>`;
+      tbodyRiwayat.innerHTML = `<tr><td colspan="3" class="text-center py-2 text-slate-400">Memuat riwayat...</td></tr>`;
+
+      try {
+        const res = await fetch(`/api/cuti/pegawai/${idPegawai}/detail?tahun=2026`);
+        const json = await res.json();
+
+        if (json.success) {
+          sisaEl.textContent = json.data.sisaCuti;
+
+          if (json.data.riwayatCuti.length > 0) {
+            tbodyRiwayat.innerHTML = json.data.riwayatCuti.map(r => `
+              <tr>
+                <td class="py-1.5 px-2 font-mono text-slate-500">${r.idRiwayat}</td>
+                <td class="py-1.5 px-2 text-slate-700 font-medium">${r.periodeCuti}</td>
+                <td class="py-1.5 px-2 text-center text-blue-600 font-bold">${r.durasiCuti} hari</td>
+              </tr>
+            `).join('');
+          } else {
+            tbodyRiwayat.innerHTML = `<tr><td colspan="3" class="text-center py-2 text-slate-400">Belum ada riwayat cuti sebelumnya.</td></tr>`;
+          }
+        }
+      } catch (err) {
+        alert("Gagal memuat detail pegawai: " + err.message);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadPengajuanCuti();
+    });
+  </script>
+</body>
+</html>

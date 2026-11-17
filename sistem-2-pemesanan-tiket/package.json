@@ -1,0 +1,35 @@
+{
+  "name": "sistem-2-pemesanan-tiket",
+  "version": "1.0.0",
+  "description": "Sistem 2: Pemesanan Tiket Pesawat (US-02 s/d US-09) - Tugas APS TIF D",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "jest --coverage"
+  },
+  "author": "Achmad Hujairi (255150200111042)",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/server.js",
+      "!src/public/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "clover"
+    ]
+  }
+}
