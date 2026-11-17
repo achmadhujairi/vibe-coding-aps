@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Coding APS - Sistem Cuti & Tiket Pesawat</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400 flex items-center justify-center text-blue-300 font-bold text-lg">
+          <i class="fa-solid fa-code"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight">Tugas 9: Desain ke Implementasi (Vibe Coding)</h1>
+          <p class="text-xs text-blue-200">Analisis & Perancangan Sistem - TIF D</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3 text-xs bg-white/10 px-4 py-2 rounded-lg border border-white/10">
+        <div>
+          <span class="block text-slate-300">Mahasiswa:</span>
+          <span class="font-semibold text-white">Achmad Hujairi</span>
+        </div>
+        <div class="h-6 w-px bg-white/20"></div>
+        <div>
+          <span class="block text-slate-300">NIM:</span>
+          <span class="font-mono font-semibold text-yellow-300">255150200111042</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-blue-950/60 border-t border-white/10 backdrop-blur">
+      <div class="max-w-7xl mx-auto px-4 flex overflow-x-auto space-x-1 py-2 text-sm">
+        <button onclick="switchTab('tab-cuti')" id="btn-tab-cuti" class="nav-tab active-tab px-4 py-2 rounded-md font-medium transition flex items-center gap-2">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Sistem 1: Pengelolaan Cuti (US-01)</span>
+        </button>
+        <button onclick="switchTab('tab-penerbangan')" id="btn-tab-penerbangan" class="nav-tab px-4 py-2 rounded-md font-medium text-slate-300 hover:text-white transition flex items-center gap-2">
+          <i class="fa-solid fa-plane-departure"></i>
+          <span>Sistem 2: Tiket Pesawat (US-02, 03, 04, 06)</span>
+        </button>
+        <button onclick="switchTab('tab-profil')" id="btn-tab-profil" class="nav-tab px-4 py-2 rounded-md font-medium text-slate-300 hover:text-white transition flex items-center gap-2">
+          <i class="fa-solid fa-id-card"></i>
+          <span>Member & Validasi Tiket (US-05)</span>
+        </button>
+        <button onclick="switchTab('tab-travel')" id="btn-tab-travel" class="nav-tab px-4 py-2 rounded-md font-medium text-slate-300 hover:text-white transition flex items-center gap-2">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Travel Manager Hub (US-07, 08, 09)</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: SISTEM 1 - PENGELOLAAN CUTI (US-01) -->
+    <!-- ========================================== -->
+    <section id="tab-cuti" class="tab-content block space-y-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">US-01</span>
+              <h2 class="text-xl font-bold text-slate-800">Pengelolaan Cuti Pegawai</h2>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              Sebagai HRD Manajer, memilih jadwal cuti untuk melihat pegawai yang mengajukan permohonan cuti, durasi, riwayat, dan sisa cuti.
+            </p>
+          </div>
+          <div class="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+            <i class="fa-solid fa-user-tie text-blue-600 mr-1"></i> Aktor: <strong>HRD Manajer</strong>
+          </div>
+        </div>
+
+        <!-- Filter Periode (Task a) -->
+        <div class="mt-6 bg-slate-50 p-4 rounded-lg border border-slate-200">
+          <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-filter text-blue-600"></i> Form Pilih Periode Cuti (Task a & b)
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Tahun</label>
+              <select id="cuti-tahun" class="w-full text-sm border border-slate-300 rounded-md p-2 bg-white">
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Bulan</label>
+              <select id="cuti-bulan" class="w-full text-sm border border-slate-300 rounded-md p-2 bg-white">
+                <option value="">Semua Bulan</option>
+                <option value="11" selected>November (11)</option>
+                <option value="12">Desember (12)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2 flex items-end">
+              <button onclick="loadPengajuanCuti()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md text-sm transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-magnifying-glass"></i> Tampilkan Permohonan Cuti Sesuai Periode
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabel Pengajuan Cuti (Task b) -->
+        <div class="mt-6">
+          <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center justify-between">
+            <span><i class="fa-solid fa-list-check text-blue-600 mr-1"></i> Daftar Pengajuan Cuti Pegawai</span>
+            <span id="cuti-count-badge" class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">0 data</span>
+          </h3>
+          <div class="overflow-x-auto rounded-lg border border-slate-200">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-100 text-slate-700 uppercase text-xs border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-4">ID Pengajuan</th>
+                  <th class="py-3 px-4">Nama Pegawai</th>
+                  <th class="py-3 px-4">Periode Cuti Diajukan</th>
+                  <th class="py-3 px-4 text-center">Durasi (Hari)</th>
+                  <th class="py-3 px-4">Alasan</th>
+                  <th class="py-3 px-4 text-center">Aksi (Task c)</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-pengajuan-cuti" class="divide-y divide-slate-200 bg-white">
+                <tr>
+                  <td colspan="6" class="text-center py-6 text-slate-400">Klik tombol filter untuk memuat data pengajuan cuti.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Detail Riwayat & Sisa Cuti Pegawai (Task c) -->
+        <div id="section-detail-pegawai" class="mt-8 hidden bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-5">
+          <div class="flex justify-between items-start pb-3 border-b border-blue-200">
+            <div>
+              <h3 class="font-bold text-blue-900 text-base flex items-center gap-2">
+                <i class="fa-solid fa-address-card text-blue-600"></i> Detail Riwayat & Sisa Cuti Pegawai
+              </h3>
+              <p class="text-xs text-blue-700" id="detail-pegawai-subtitle"></p>
+            </div>
+            <button onclick="document.getElementById('section-detail-pegawai').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <!-- Box Sisa Cuti -->
+            <div class="bg-white p-4 rounded-lg border border-blue-100 shadow-sm flex flex-col justify-center items-center text-center">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sisa Waktu Cuti (2026)</span>
+              <div class="text-4xl font-extrabold text-blue-600 my-2" id="detail-sisa-cuti">-</div>
+              <span class="text-xs text-slate-400">Hari tersisa pada tahun berjalan</span>
+            </div>
+
+            <!-- Box Riwayat Cuti -->
+            <div class="md:col-span-2 bg-white p-4 rounded-lg border border-blue-100 shadow-sm">
+              <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-2">Riwayat Cuti Terambil</span>
+              <div class="overflow-y-auto max-h-48">
+                <table class="w-full text-xs text-left">
+                  <thead class="bg-slate-50 text-slate-600">
+                    <tr>
+                      <th class="py-2 px-2">ID Riwayat</th>
+                      <th class="py-2 px-2">Periode Cuti</th>
+                      <th class="py-2 px-2 text-center">Durasi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody-riwayat-cuti" class="divide-y divide-slate-100">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TAB 2: SISTEM 2 - TIKET PESAWAT (US-02, US-03, US-04, US-06) -->
+    <!-- ============================================================== -->
+    <section id="tab-penerbangan" class="tab-content hidden space-y-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">US-02, 03, 04, 06</span>
+              <h2 class="text-xl font-bold text-slate-800">Pencarian, Pemesanan, & Pembatalan Tiket</h2>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              Pencarian sesuai preferensi tujuan, beberapa tujuan, multi-destinasi, serta perbandingan harga penerbangan.
+            </p>
+          </div>
+          <div class="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+            <i class="fa-solid fa-users text-purple-600 mr-1"></i> Aktor: <strong>Pengguna & Frequent Traveller</strong>
+          </div>
+        </div>
+
+        <!-- Sub Tabs -->
+        <div class="flex border-b border-slate-200 mt-4 text-xs font-medium space-x-4">
+          <button onclick="switchFlightSubTab('sub-single')" id="btn-sub-single" class="subtab-btn border-b-2 border-purple-600 text-purple-700 py-2">
+            US-02: Pencarian Standar & Booking
+          </button>
+          <button onclick="switchFlightSubTab('sub-multi-dest')" id="btn-sub-multi-dest" class="subtab-btn text-slate-500 hover:text-slate-700 py-2">
+            US-03: Beberapa Tujuan Sekaligus
+          </button>
+          <button onclick="switchFlightSubTab('sub-legs')" id="btn-sub-legs" class="subtab-btn text-slate-500 hover:text-slate-700 py-2">
+            US-04: Multi-Destinasi Berurutan
+          </button>
+          <button onclick="switchFlightSubTab('sub-compare')" id="btn-sub-compare" class="subtab-btn text-slate-500 hover:text-slate-700 py-2">
+            US-06: Perbandingan Harga & Preferensi
+          </button>
+        </div>
+
+        <!-- Sub 1: US-02 Standar -->
+        <div id="sub-single" class="flight-subcontent mt-4 space-y-4">
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Kota Asal</label>
+              <input type="text" id="us2-asal" value="Jakarta (CGK)" class="w-full text-sm border border-slate-300 rounded p-2 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Kota Tujuan</label>
+              <input type="text" id="us2-tujuan" value="Bali" class="w-full text-sm border border-slate-300 rounded p-2 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Tanggal</label>
+              <input type="date" id="us2-tanggal" value="2026-11-20" class="w-full text-sm border border-slate-300 rounded p-2 bg-white">
+            </div>
+            <div class="flex items-end">
+              <button onclick="searchFlightsUS02()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded text-sm transition">
+                <i class="fa-solid fa-search"></i> Cari Jadwal Penerbangan
+              </button>
+            </div>
+          </div>
+          <div id="us2-flight-results" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        </div>
+
+        <!-- Sub 2: US-03 Beberapa Tujuan -->
+        <div id="sub-multi-dest" class="flight-subcontent hidden mt-4 space-y-4">
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Pencarian untuk Beberapa Tujuan Penerbangan (US-03)</h4>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input type="text" id="us3-tujuan" placeholder="Masukkan beberapa tujuan, contoh: Bali, Surabaya, Yogyakarta" value="Bali, Surabaya" class="flex-1 text-sm border border-slate-300 rounded p-2 bg-white">
+              <button onclick="searchFlightsUS03()" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded text-sm">
+                <i class="fa-solid fa-layer-group"></i> Cari Semua Tujuan
+              </button>
+            </div>
+          </div>
+          <div id="us3-flight-results" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        </div>
+
+        <!-- Sub 3: US-04 Multi-Destinasi Rute -->
+        <div id="sub-legs" class="flight-subcontent hidden mt-4 space-y-4">
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">Pencarian Multi-Destinasi (US-04 Member Frequent Traveller)</h4>
+            <p class="text-xs text-slate-500 mb-3">Mencari kombinasi penerbangan multi-kota berantai berdasarkan lokasi, tanggal, dan tujuan.</p>
+            <div class="space-y-2 text-xs">
+              <div class="p-2 bg-white border rounded flex justify-between items-center">
+                <span><strong>Rute 1:</strong> Jakarta (CGK) &rarr; Bali (DPS) (2026-11-20)</span>
+                <span class="text-green-600 font-semibold"><i class="fa-solid fa-check"></i> Rute Tersedia</span>
+              </div>
+              <div class="p-2 bg-white border rounded flex justify-between items-center">
+                <span><strong>Rute 2:</strong> Bali (DPS) &rarr; Lombok (LOP) (2026-11-22)</span>
+                <span class="text-green-600 font-semibold"><i class="fa-solid fa-check"></i> Rute Tersedia</span>
+              </div>
+            </div>
+            <button onclick="searchFlightsUS04()" class="mt-4 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded text-sm">
+              <i class="fa-solid fa-route"></i> Jalankan Pencarian Multi-Destinasi
+            </button>
+          </div>
+          <div id="us4-flight-results" class="space-y-4"></div>
+        </div>
+
+        <!-- Sub 4: US-06 Komparasi Harga -->
+        <div id="sub-compare" class="flight-subcontent hidden mt-4 space-y-4">
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Tujuan</label>
+              <input type="text" id="us6-tujuan" value="Bali" class="w-full text-sm border border-slate-300 rounded p-2 bg-white">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Urutkan Berdasarkan</label>
+              <select id="us6-sort" class="w-full text-sm border border-slate-300 rounded p-2 bg-white">
+                <option value="harga_asc">Harga Termurah &rarr; Termahal</option>
+                <option value="harga_desc">Harga Termahal &rarr; Termurah</option>
+                <option value="jam_asc">Jam Keberangkatan Paling Awal</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2 flex items-end">
+              <button onclick="searchFlightsUS06()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded text-sm transition">
+                <i class="fa-solid fa-arrow-down-wide-short"></i> Bandingkan Harga & Jadwal
+              </button>
+            </div>
+          </div>
+          <div id="us6-flight-results" class="space-y-3"></div>
+        </div>
+
+        <!-- Bagian Pembatalan Tiket (US-02 Task c) -->
+        <div class="mt-8 pt-6 border-t border-slate-200">
+          <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center justify-between">
+            <span><i class="fa-solid fa-ban text-red-500 mr-1"></i> Data Pemesanan Aktif & Pembatalan Pesanan (US-02 Task c)</span>
+            <button onclick="loadAllBookings()" class="text-xs text-blue-600 hover:underline">Refresh Data</button>
+          </h3>
+          <div class="overflow-x-auto rounded-lg border border-slate-200">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
+                <tr>
+                  <th class="py-2.5 px-3">ID Pemesanan</th>
+                  <th class="py-2.5 px-3">Booking Ref</th>
+                  <th class="py-2.5 px-3">Penumpang</th>
+                  <th class="py-2.5 px-3">Status</th>
+                  <th class="py-2.5 px-3 text-center">Aksi Pembatalan</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-pemesanan-list" class="divide-y divide-slate-200 bg-white text-xs">
+                <!-- Loaded by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: SISTEM 2 - MEMBER PROFILE & VALIDASI TIKET (US-05) -->
+    <!-- ========================================================= -->
+    <section id="tab-profil" class="tab-content hidden space-y-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded">US-05</span>
+              <h2 class="text-xl font-bold text-slate-800">Data Profil & Validasi Tiket Member</h2>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              Member Frequent Traveller melengkapi data personal agar dapat melakukan validasi tiket. Sistem menolak jika profil belum lengkap.
+            </p>
+          </div>
+          <div class="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+            <i class="fa-solid fa-id-card-clip text-emerald-600 mr-1"></i> Aktor: <strong>Member Frequent Traveller</strong>
+          </div>
+        </div>
+
+        <!-- Pilih Member -->
+        <div class="mt-4 bg-emerald-50/50 p-4 rounded-lg border border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <label class="text-xs font-bold text-emerald-900">Pilih Member Akun:</label>
+            <select id="select-member" onchange="onSelectMemberChanged()" class="text-sm border border-emerald-300 rounded p-1.5 bg-white">
+              <option value="MEM-001">MEM-001: Achmad Hujairi (Profil Lengkap)</option>
+              <option value="MEM-002">MEM-002: Rian Pratama (Profil Belum Lengkap)</option>
+            </select>
+          </div>
+          <div id="badge-status-profil" class="text-xs px-3 py-1 rounded-full font-bold">
+            <!-- status badge -->
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <!-- Form Update Profil (Task a) -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-user-pen text-emerald-600"></i> Form Update Profil Personal (Task a)
+            </h3>
+            <form id="form-update-profil" onsubmit="handleUpdateProfil(event)" class="space-y-3 text-xs">
+              <div>
+                <label class="block font-medium text-slate-600 mb-1">Nama Lengkap</label>
+                <input type="text" id="prof-nama" class="w-full border rounded p-2 bg-white" required>
+              </div>
+              <div>
+                <label class="block font-medium text-slate-600 mb-1">Email</label>
+                <input type="email" id="prof-email" class="w-full border rounded p-2 bg-white" required>
+              </div>
+              <div>
+                <label class="block font-medium text-slate-600 mb-1">Nomor Paspor</label>
+                <input type="text" id="prof-paspor" placeholder="Contoh: A12345678" class="w-full border rounded p-2 bg-white">
+              </div>
+              <div>
+                <label class="block font-medium text-slate-600 mb-1">Nomor Telepon</label>
+                <input type="text" id="prof-telepon" placeholder="Contoh: 081234567890" class="w-full border rounded p-2 bg-white">
+              </div>
+              <div>
+                <label class="block font-medium text-slate-600 mb-1">Alamat</label>
+                <textarea id="prof-alamat" rows="2" placeholder="Alamat lengkap domisili" class="w-full border rounded p-2 bg-white"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded text-sm transition">
+                <i class="fa-solid fa-floppy-disk"></i> Simpan Update Profil
+              </button>
+            </form>
+          </div>
+
+          <!-- Form Validasi Tiket (Task b & c) -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex flex-col justify-between">
+            <div>
+              <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-ticket-simple text-emerald-600"></i> Validasi Tiket Menggunakan Profil (Task b & c)
+              </h3>
+              <p class="text-xs text-slate-500 mb-4">
+                Sistem akan memvalidasi tiket jika data profil sudah lengkap. Jika data profil tidak lengkap, sistem akan menolak dan menampilkan pesan error.
+              </p>
+              <div class="space-y-3 text-xs">
+                <div>
+                  <label class="block font-medium text-slate-600 mb-1">Pilih Tiket untuk Divalidasi</label>
+                  <select id="val-tiket-select" class="w-full border rounded p-2 bg-white">
+                    <option value="TKT-001">TKT-001: Garuda Indonesia (CGK - DPS) - Rp 1.750.000</option>
+                    <option value="TKT-002">TKT-002: Batik Air (CGK - DPS) - Rp 1.350.000</option>
+                    <option value="TKT-003">TKT-003: Super Air Jet (CGK - DPS) - Rp 950.000</option>
+                  </select>
+                </div>
+                <button onclick="handleValidasiTiket()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded text-sm transition">
+                  <i class="fa-solid fa-shield-halved"></i> Proses Validasi Tiket
+                </button>
+              </div>
+            </div>
+
+            <!-- Area Hasil Validasi -->
+            <div id="area-hasil-validasi" class="mt-4 p-4 rounded-lg border hidden text-xs">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: SISTEM 2 - TRAVEL MANAGER HUB (US-07, US-08, US-09) -->
+    <!-- ======================================================== -->
+    <section id="tab-travel" class="tab-content hidden space-y-6">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded">US-07, 08, 09</span>
+              <h2 class="text-xl font-bold text-slate-800">Travel Manager Dashboard</h2>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              Otorisasi travel, filter status booking, pemesanan tiket untuk pengunjung, dan otorisasi tiket via kode booking reference.
+            </p>
+          </div>
+          <div class="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+            <i class="fa-solid fa-briefcase text-amber-600 mr-1"></i> Aktor: <strong>Manajer Travel & Pengunjung</strong>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          
+          <!-- US-07: Filter Status Booking -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center justify-between">
+              <span><i class="fa-solid fa-list-check text-amber-600 mr-1"></i> Pemeriksaan Status Booking (US-07)</span>
+            </h3>
+            <p class="text-xs text-slate-500 mb-3">Memilih dan memfilter status booking (confirmed, booked, waiting for the payment).</p>
+            <div class="flex gap-2 mb-3">
+              <select id="filter-status-booking" onchange="loadStatusBookingList()" class="text-xs border rounded p-2 bg-white flex-1">
+                <option value="all">Semua Status Booking</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="booked">Booked</option>
+                <option value="waiting for the payment">Waiting for the payment</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <button onclick="loadStatusBookingList()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-2 rounded">
+                <i class="fa-solid fa-filter"></i> Filter
+              </button>
+            </div>
+            <div class="overflow-y-auto max-h-56 rounded border bg-white">
+              <table class="w-full text-xs text-left">
+                <thead class="bg-slate-100 text-slate-700">
+                  <tr>
+                    <th class="p-2">ID Order</th>
+                    <th class="p-2">Booking Ref</th>
+                    <th class="p-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-status-booking-list" class="divide-y divide-slate-100">
+                  <!-- JS populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- US-09: Otorisasi Tiket via Booking Reference -->
+          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+            <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
+              <i class="fa-solid fa-key text-amber-600"></i> Otorisasi Tiket Pesawat (US-09)
+            </h3>
+            <p class="text-xs text-slate-500 mb-3">
+              Otorisasi status tiket menggunakan <strong>Kode Booking Reference</strong>. (Sistem akan memverifikasi atau menampilkan pesan kesalahan jika tidak cocok).
+            </p>
+            <div class="space-y-3 text-xs">
+              <div>
+                <label class="block font-medium text-slate-600 mb-1">Kode Booking Reference</label>
+                <div class="flex gap-2">
+                  <input type="text" id="input-booking-ref" placeholder="Contoh: BOOK-REF-7711" value="BOOK-REF-7711" class="border rounded p-2 bg-white flex-1 font-mono uppercase">
+                  <button onclick="handleOtorisasiTiket()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-4 py-2 rounded">
+                    <i class="fa-solid fa-check-circle"></i> Otorisasi
+                  </button>
+                </div>
+                <div class="mt-1 flex gap-2 text-[10px] text-slate-500">
+                  <span>Coba contoh valid: <a href="javascript:void(0)" onclick="setRef('BOOK-REF-7711')" class="text-blue-600 underline">BOOK-REF-7711</a>, <a href="javascript:void(0)" onclick="setRef('BOOK-REF-8822')" class="text-blue-600 underline">BOOK-REF-8822</a></span>
+                  <span>| Coba salah: <a href="javascript:void(0)" onclick="setRef('KODE-SALAH-123')" class="text-red-500 underline">KODE-SALAH-123</a></span>
+                </div>
+              </div>
+              <div id="area-hasil-otorisasi" class="p-3 rounded border hidden">
+                <!-- JS populated -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- US-08: Pemesanan untuk Pengunjung & E-Tiket -->
+        <div class="mt-6 pt-6 border-t border-slate-200 bg-slate-50/70 p-4 rounded-xl border border-slate-200">
+          <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane text-blue-600"></i> Pemesanan Tiket untuk Pengunjung & E-Tiket (US-08)
+          </h3>
+          <p class="text-xs text-slate-500 mb-4">
+            Travel Manajer memesan tiket atas nama pengunjung. Sistem otomatis menyimpan ke akun pengunjung dan mengirimkan e-tiket ke email terdaftar.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <!-- Form Order Pengunjung -->
+            <form onsubmit="handlePesanTiketPengunjung(event)" class="space-y-2 bg-white p-3 rounded border">
+              <h4 class="font-bold text-slate-700">Form Pemesanan Pengunjung (Travel Manager)</h4>
+              <div>
+                <label class="block text-slate-600 mb-1">Nama Pengunjung</label>
+                <input type="text" id="gst-nama" value="Clarissa Putri" required class="w-full border rounded p-1.5 bg-slate-50">
+              </div>
+              <div>
+                <label class="block text-slate-600 mb-1">Email Pengunjung (Tujuan E-Tiket)</label>
+                <input type="email" id="gst-email" value="clarissa@gmail.com" required class="w-full border rounded p-1.5 bg-slate-50">
+              </div>
+              <div>
+                <label class="block text-slate-600 mb-1">Pilihan Tiket</label>
+                <select id="gst-tiket" class="w-full border rounded p-1.5 bg-slate-50">
+                  <option value="TKT-003">TKT-003: Super Air Jet (CGK - DPS) - Rp 950.000</option>
+                  <option value="TKT-004">TKT-004: Lion Air (CGK - SUB) - Rp 820.000</option>
+                  <option value="TKT-005">TKT-005: Garuda Indonesia (DPS - LOP) - Rp 600.000</option>
+                </select>
+              </div>
+              <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded text-xs">
+                <i class="fa-solid fa-cart-plus"></i> Pesankan Tiket & Kirim E-Tiket
+              </button>
+            </form>
+
+            <!-- Cek Akun Pengunjung -->
+            <div class="space-y-2 bg-white p-3 rounded border flex flex-col justify-between">
+              <div>
+                <h4 class="font-bold text-slate-700">Cek Akun & E-Tiket Pengunjung (Task c & d)</h4>
+                <div class="flex gap-2 mt-2">
+                  <input type="email" id="cek-email-pengunjung" value="clarissa@gmail.com" class="border rounded p-1.5 flex-1 bg-slate-50 text-xs">
+                  <button onclick="handleCekTiketPengunjung()" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1.5 rounded text-xs">
+                    Cek Akun
+                  </button>
+                </div>
+              </div>
+              <div id="area-hasil-pengunjung" class="overflow-y-auto max-h-36 p-2 bg-slate-50 rounded border text-slate-600 text-xs">
+                Masukkan email pengunjung untuk melihat riwayat pesanan dan status pengiriman e-tiket.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-4 text-xs text-center border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <p>&copy; 2026 Achmad Hujairi (255150200111042) - Analisis & Perancangan Sistem</p>
+      <p class="text-slate-500">Node.js Express Vibe Coding Implementation</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

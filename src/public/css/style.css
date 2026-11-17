@@ -1,0 +1,12 @@
+/* Custom styling complement to Tailwind CSS */
+.active-tab {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-bottom: 2px solid #38bdf8;
+}
+
+.subtab-btn.active {
+  border-bottom: 2px solid #9333ea;
+  color: #7e22ce;
+  font-weight: 600;
+}
